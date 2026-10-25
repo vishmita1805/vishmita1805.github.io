@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vishmita Mattam</title>
+<meta name="description" content="Vishmita Mattam, software engineer building polished frontends, backend services, and AI features.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: sticky identity rail on the left, scrolling work column on the right; stacks to one column on phones */
+:root {
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --ink: #14171f;
+  --muted: #5b6272;
+  --line: #dde1e8;
+  --accent: #2f45d8;
+  --accent-soft: #e6e9fc;
+  --ok: #1d7a55;
+  --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --body: "IBM Plex Sans", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1218; --surface: #171b24; --ink: #e9ecf2; --muted: #9aa2b3;
+    --line: #2a303d; --accent: #8c9bff; --accent-soft: #232a4a; --ok: #5cc79a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1218; --surface: #171b24; --ink: #e9ecf2; --muted: #9aa2b3;
+  --line: #2a303d; --accent: #8c9bff; --accent-soft: #232a4a; --ok: #5cc79a;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+::selection { background: var(--accent-soft); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+.shell {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 56px 72px;
+  display: grid;
+  grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+  gap: 72px;
+}
+
+/* Identity rail */
+.rail { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 56px); align-self: start; display: grid; gap: 28px; }
+.name {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(2.4rem, 4vw, 3.1rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-wrap: balance;
+}
+.name .dot { color: var(--accent); }
+.role { margin: 10px 0 0; color: var(--muted); font-size: 1.02rem; max-width: 30ch; }
+.status {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.02em;
+  color: var(--ok);
+  padding: 6px 10px; border: 1px solid var(--line); border-radius: 999px; width: fit-content;
+  background: var(--surface);
+}
+.pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 0 var(--ok); animation: pulse 2.4s ease-out infinite; }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--ok) 55%, transparent); } 70%, 100% { box-shadow: 0 0 0 8px transparent; } }
+
+nav ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+nav a {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; color: var(--muted);
+  font-size: 0.92rem; padding: 4px 0;
+  transition: color .2s ease;
+}
+nav a::before { content: ""; width: 18px; height: 1px; background: currentColor; transition: width .25s ease; }
+nav a:hover, nav a[aria-current="true"] { color: var(--ink); }
+nav a:hover::before, nav a[aria-current="true"]::before { width: 36px; background: var(--accent); }
+
+.contact { display: grid; gap: 10px; font-size: 0.92rem; }
+.contact-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.email { font-family: var(--mono); font-size: 0.84rem; user-select: all; word-break: break-all; }
+.btn {
+  font: inherit; font-size: 0.8rem; font-family: var(--mono);
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+  border-radius: 6px; padding: 4px 9px; cursor: pointer;
+  transition: border-color .2s ease, color .2s ease;
+}
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.link { color: var(--accent); text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); }
+.link:hover { border-bottom-color: var(--accent); }
+
+/* Work column */
+main { display: grid; gap: 72px; min-width: 0; }
+section { display: grid; gap: 22px; scroll-margin-top: 40px; }
+.eyebrow {
+  font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); margin: 0; display: flex; align-items: center; gap: 12px;
+}
+.eyebrow::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.lede { font-size: 1.18rem; line-height: 1.55; margin: 0; max-width: 60ch; }
+.lede strong { font-weight: 600; }
+p { margin: 0; }
+
+/* Experience */
+.jobs { display: grid; gap: 0; }
+.job {
+  display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 24px;
+  padding: 20px 0; border-top: 1px solid var(--line);
+}
+.job:first-child { border-top: 0; padding-top: 4px; }
+.when { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); padding-top: 3px; font-variant-numeric: tabular-nums; }
+.job h3 { margin: 0; font-size: 1.04rem; font-weight: 600; }
+.job h3 span { color: var(--muted); font-weight: 400; }
+.job p { color: var(--muted); margin-top: 6px; max-width: 62ch; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; padding: 0; list-style: none; }
+.tags li { font-family: var(--mono); font-size: 0.74rem; color: var(--ink); background: var(--accent-soft); padding: 3px 8px; border-radius: 5px; }
+
+/* Projects */
+.projects { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.card {
+  position: relative; overflow: hidden;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 22px; display: grid; gap: 10px; align-content: start;
+  transition: transform .25s ease, border-color .25s ease;
+  --mx: 50%; --my: 0%;
+}
+.card::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0;
+  background: radial-gradient(320px circle at var(--mx) var(--my), color-mix(in srgb, var(--accent) 12%, transparent), transparent 60%);
+  transition: opacity .3s ease;
+}
+.card:hover { transform: translateY(-2px); border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+.card:hover::before { opacity: 1; }
+.card h3 { margin: 0; font-family: var(--display); font-weight: 500; font-size: 1.22rem; letter-spacing: -0.01em; line-height: 1.25; }
+.card p { color: var(--muted); font-size: 0.95rem; }
+.badge { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; width: fit-content; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+.badge.live { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 40%, var(--line)); }
+.card .tags { margin-top: 4px; }
+.card.wide { grid-column: span 2; }
+
+/* Skills */
+.skills { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 32px; }
+.skill h3 { margin: 0 0 6px; font-size: 0.86rem; font-weight: 600; }
+.skill p { color: var(--muted); font-size: 0.94rem; }
+
+/* Education */
+.edu { display: grid; gap: 14px; }
+.edu-row { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+.edu-row:last-child { border-bottom: 0; }
+.edu-row h3 { margin: 0; font-size: 1rem; font-weight: 600; }
+.edu-row p { color: var(--muted); font-size: 0.94rem; }
+
+footer { color: var(--muted); font-size: 0.84rem; font-family: var(--mono); }
+
+/* Load moment: content is visible at rest; the name underline draws once */
+.name { position: relative; display: inline-block; padding-bottom: 8px; }
+.name::after {
+  content: ""; position: absolute; left: 0; bottom: 0; height: 3px; width: 100%;
+  background: var(--accent); transform-origin: left; animation: draw 1s .2s cubic-bezier(.2,.7,.2,1) both;
+}
+@keyframes draw { from { transform: scaleX(0.08); } to { transform: scaleX(1); } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}
+
+@media (max-width: 860px) {
+  .shell { grid-template-columns: minmax(0, 1fr); gap: 48px; padding-block: 36px 56px; }
+  .rail { position: static; }
+  nav { display: none; }
+  .projects, .skills { grid-template-columns: minmax(0, 1fr); }
+  .card.wide { grid-column: auto; }
+}
+@media (max-width: 520px) {
+  .job { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <aside class="rail">
+    <div>
+      <h1 class="name">Vishmita Mattam<span class="dot">.</span></h1>
+      <p class="role">Software engineer building polished frontends, reliable backend services, and AI features people actually use.</p>
+    </div>
+    <span class="status"><span class="pulse" aria-hidden="true"></span>Open to full time roles · NJ / NYC</span>
+    <nav aria-label="Sections">
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#work">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#education">Education</a></li>
+      </ul>
+    </nav>
+    <div class="contact">
+      <div class="contact-row">
+        <span class="email" id="email">vishmitamattam1805@gmail.com</span>
+        <button class="btn" id="copy-email" type="button">Copy</button>
+      </div>
+      <div class="contact-row">
+        <a class="link" href="https://www.linkedin.com/in/vishmita-mattam/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </aside>
+
+  <main>
+    <section id="about" aria-labelledby="about-h">
+      <h2 class="eyebrow" id="about-h">About</h2>
+      <p class="lede">I started in IT support, fixing things when they broke, and got curious about how they were built. Since then I have worked on <strong>backend services</strong> at two AI startups, built <strong>full stack apps</strong> for small businesses, and finished my M.S. in Computer Science at NJIT.</p>
+      <p class="lede">I care about the small details: how a component behaves with a keyboard, how an answer appears on screen, and whether the number on a dashboard is actually right.</p>
+    </section>
+
+    <section id="work" aria-labelledby="work-h">
+      <h2 class="eyebrow" id="work-h">Experience</h2>
+      <div class="jobs">
+        <article class="job">
+          <div class="when">Oct 2026 – Now</div>
+          <div>
+            <h3>Software Developer <span>· 250 Circle</span></h3>
+            <p>Building websites and web apps for small business clients, implementing UI components in React, and supporting AI feature development and testing.</p>
+            <ul class="tags"><li>React</li><li>JavaScript</li><li>HTML/CSS</li><li>LLM APIs</li></ul>
+          </div>
+        </article>
+        <article class="job">
+          <div class="when">Oct 2025 – Mar 2026</div>
+          <div>
+            <h3>Software Engineer <span>· Chorah Labs</span></h3>
+            <p>Built backend features and REST APIs for an AI regulatory platform that helps biotech and pharma teams prepare clinical trial submissions. Deployed services on AWS and debugged production issues.</p>
+            <ul class="tags"><li>Python</li><li>Java</li><li>PostgreSQL</li><li>AWS</li><li>Docker</li></ul>
+          </div>
+        </article>
+        <article class="job">
+          <div class="when">Jun – Aug 2025</div>
+          <div>
+            <h3>Backend Developer <span>· Gabriel AI</span></h3>
+            <p>Built backend services and REST APIs on AWS, event driven integrations with Kafka, and monitoring with Grafana and Prometheus.</p>
+            <ul class="tags"><li>Python</li><li>Kafka</li><li>MongoDB</li><li>Grafana</li></ul>
+          </div>
+        </article>
+        <article class="job">
+          <div class="when">Jun 2023 – May 2024</div>
+          <div>
+            <h3>IT Support Engineer <span>· Simple Sourcing</span></h3>
+            <p>Supported internal users across systems, found root causes, and automated repetitive work with SQL and shell scripts.</p>
+            <ul class="tags"><li>SQL</li><li>Shell</li><li>Troubleshooting</li></ul>
+          </div>
+        </article>
+        <article class="job">
+          <div class="when">Mar – Nov 2023</div>
+          <div>
+            <h3>Java Full Stack Intern <span>· ExcelR</span></h3>
+            <p>Built full stack web applications and REST endpoints with Java, JavaScript, and SQL.</p>
+            <ul class="tags"><li>Java</li><li>JavaScript</li><li>SQL</li></ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="projects" aria-labelledby="projects-h">
+      <h2 class="eyebrow" id="projects-h">Projects</h2>
+      <div class="projects">
+        <article class="card wide">
+          <span class="badge live">Building now</span>
+          <h3>AI Research Workspace UI Kit</h3>
+          <p>A design system for an AI research tool for finance users: command palette, data tables, chat panel, and chart cards, with motion for streaming answers that respects reduced motion settings, kept in sync with Figma.</p>
+          <ul class="tags"><li>React</li><li>Next.js</li><li>TypeScript</li><li>Framer Motion</li><li>Storybook</li></ul>
+        </article>
+        <article class="card">
+          <span class="badge live">Building now</span>
+          <h3>Accessible React Component Library</h3>
+          <p>Shared components with keyboard navigation, focus management, and ARIA, tested with Testing Library and axe, with design tokens synced from Figma.</p>
+          <ul class="tags"><li>React</li><li>TypeScript</li><li>axe</li></ul>
+        </article>
+        <article class="card">
+          <span class="badge live">Building now</span>
+          <h3>Document Q&amp;A Assistant</h3>
+          <p>Upload documents and ask questions in plain English. Uses retrieval with pgvector and returns answers that cite their sources.</p>
+          <ul class="tags"><li>Python</li><li>FastAPI</li><li>RAG</li><li>pgvector</li></ul>
+        </article>
+        <article class="card">
+          <span class="badge">M.S. project</span>
+          <h3>Credit Card Fraud Detection</h3>
+          <p>Fraud is so rare that a model can score 99% accuracy by never flagging anything. I compared models on precision and recall instead and handled the class imbalance.</p>
+          <ul class="tags"><li>Python</li><li>SQL</li><li>scikit learn</li></ul>
+        </article>
+        <article class="card">
+          <span class="badge">Academic project</span>
+          <h3>Stress Detection with Deep Learning</h3>
+          <p>A deep learning model that detects stress from input data, covering preprocessing, training, and performance analysis.</p>
+          <ul class="tags"><li>Python</li><li>Deep Learning</li></ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="skills" aria-labelledby="skills-h">
+      <h2 class="eyebrow" id="skills-h">Skills</h2>
+      <div class="skills">
+        <div class="skill"><h3>Frontend</h3><p>React, Next.js, TypeScript, JavaScript, HTML, CSS, accessibility, design systems, Figma</p></div>
+        <div class="skill"><h3>Backend</h3><p>Python, Java, Node.js, REST APIs, FastAPI, Spring Boot, PostgreSQL, MongoDB, Kafka</p></div>
+        <div class="skill"><h3>AI</h3><p>LLM APIs, RAG, prompt engineering, evaluations, agents, Claude Code, Cursor</p></div>
+        <div class="skill"><h3>Cloud and tools</h3><p>AWS, Docker, Kubernetes, CI/CD, Git, Grafana, Prometheus</p></div>
+      </div>
+    </section>
+
+    <section id="education" aria-labelledby="edu-h">
+      <h2 class="eyebrow" id="edu-h">Education</h2>
+      <div class="edu">
+        <div class="edu-row">
+          <div><h3>M.S. in Computer Science</h3><p>New Jersey Institute of Technology · GPA 3.50</p></div>
+          <p class="when">May 2026</p>
+        </div>
+        <div class="edu-row">
+          <div><h3>B.Tech. in Computer Science and Engineering</h3><p>Siddhartha Institute of Engineering and Technology</p></div>
+          <p class="when">Aug 2023</p>
+        </div>
+        <div class="edu-row">
+          <div><h3>AWS Certified Data Engineer Associate</h3><p>Amazon Web Services</p></div>
+        </div>
+      </div>
+    </section>
+
+    <footer>Designed and built by Vishmita Mattam.</footer>
+  </main>
+</div>
+
+<script>
+(function () {
+  // Copy email, falling back to selecting the text
+  var btn = document.getElementById('copy-email');
+  var email = document.getElementById('email');
+  function selectEmail() {
+    var r = document.createRange(); r.selectNodeContents(email);
+    var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+  }
+  btn.addEventListener('click', function () {
+    var text = email.textContent.trim();
+    var done = function () { btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = 'Copy'; }, 1600); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () { selectEmail(); btn.textContent = 'Selected'; });
+    } else { selectEmail(); btn.textContent = 'Selected'; }
+  });
+
+  // Spotlight that follows the pointer on project cards
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce) {
+    document.querySelectorAll('.card').forEach(function (card) {
+      card.addEventListener('pointermove', function (e) {
+        var r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+    });
+  }
+
+  // Highlight the current section in the nav
+  var links = Array.prototype.slice.call(document.querySelectorAll('nav a'));
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          links.forEach(function (a) { a.setAttribute('aria-current', a.getAttribute('href') === '#' + en.target.id ? 'true' : 'false'); });
+        }
+      });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    document.querySelectorAll('main section').forEach(function (s) { io.observe(s); });
+  }
+})();
+</script>
+
+</body>
+</html>
